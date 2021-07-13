@@ -6,7 +6,7 @@ using namespace std;
 
 struct Truck
 {
-    int weight;
+    int weight = 0;
     int tick = 0;
 };
 
