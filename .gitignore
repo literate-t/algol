@@ -1,0 +1,20 @@
+##folders
+Debug/
+Release/
+x64/
+.vs/
+**/Debug/
+**/Release/
+**/x64/
+
+##files
+**/*.i
+**/*.obj
+
+##it was, not now
+#*.sln
+#**/*.vcxproj
+#**/*.vcxproj.*
+
+
+
