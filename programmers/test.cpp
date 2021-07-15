@@ -1,48 +1,40 @@
 #include <string>
 #include <vector>
+#include <algorithm>
 #include <iostream>
 using namespace std;
 
-string solution(string number, int k) 
+int solution(vector<int> people, int limit) 
 {
-    string answer = "";
-    size_t size = number.size() - k;
-    int next = 0;
-    int start = 0;
-    for (int i = 0; i < size; ++i)
+    int answer = 0;
+    sort(begin(people), end(people));
+    int less_idx = 0;
+    for (int i = people.size() - 1; i >= less_idx; --i)
     {
-        char max = 0;
-        for (int j = start; j <= k + next; ++j)
-        {
-            if (max < number[j])
-            {
-                max = number[j];
-                start = j + 1;
-            }
-        }            
-        answer += max;
-        next += 1;
+        ++answer;
+        if (people[less_idx] + people[i] > limit) continue;
+        else
+            ++less_idx;
     }
+
     return answer;
 }
 /*
+*   70, 50, 80, 50
+*   50, 50, 70, 80 / limit 100
+* 
+*   40, 40, 50, 70, 80, 100 / limit 100
+*   50, 60, 70, 80, 100     / 120
 
-1924  K:2, 두 자리
-192 4
-0~2(K)
-
-1231234 K:3, 네 자리
-1231 234
-0~3(K)
-
-4177252841 K:4, 여섯 자리
-41772 52841
-0~4
-
+* 
+* 
+*   70, 80, 50     / limit 100
+*   50, 70, 80
+* 
+* 
 */
 int main()
 {
-    cout << solution("1924", 2) << endl;
-    cout << solution("1231234", 3) << endl;
-    cout << solution("4177252841", 4) << endl;
+    cout << solution({ 70, 50, 80, 50 }, 100) << endl;
+    cout << solution({ 70, 80, 50 }, 100) << endl;
 }
