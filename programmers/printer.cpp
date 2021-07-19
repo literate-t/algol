@@ -2,6 +2,7 @@
 #include <vector>
 #include <queue>
 #include <iostream>
+#include <algorithm>
 using namespace std;
 
 int solution(vector<int> priorities, int location) {
@@ -36,13 +37,30 @@ int solution(vector<int> priorities, int location) {
         }
     }
 }
-/*
-*   ABCD
-*   2132
-* 
-*   CDAB
-*   3221
-*/
+
+//int solution(vector<int> priorities, int location)
+//{
+//    vector<int> numbers;
+//    queue<int> index_queue;
+//    for (size_t i = 0; i < priorities.size(); ++i)
+//        index_queue.push(i);
+//    while (!index_queue.empty())
+//    {
+//        int index = index_queue.front();
+//        index_queue.pop();
+//        if (*max_element(begin(priorities), end(priorities)) != priorities[index])
+//            index_queue.push(index);
+//        else
+//        {
+//            priorities[index] = 0;
+//            numbers.push_back(index);
+//        }
+//    }
+//    for (size_t i = 0; i < numbers.size(); ++i)
+//        if (numbers[i] == location)
+//            return i + 1;
+//}
+
 int main()
 {
     cout << solution({ 1, 1, 9, 1, 1, 1 }, 0) << endl;
