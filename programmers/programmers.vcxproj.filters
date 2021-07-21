@@ -96,5 +96,8 @@
     <ClCompile Include="printer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="game_map_shortest.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
