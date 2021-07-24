@@ -1,26 +1,41 @@
 #include <string>
-#include <stack>
+#include <vector>
 #include <iostream>
 using namespace std;
 
-int solution(string s)
+int solution(string s) 
 {
-    stack<char> st;
-    for (size_t i = 0; i < s.size(); ++i)
+    size_t size = s.size(); // 8
+    size_t answer = size;
+    for (size_t i = 1; i <= size / 2; ++i)
     {
-        if (st.empty() || st.top() != s[i]) st.push(s[i]);
-        else st.pop();
-    }  
-    return st.empty() ? 1 : 0;
+        auto sub = s.substr(0, i);
+        int count = 1;
+        string temp;
+        for (size_t j = i; j <= size; j += i)
+        {
+            auto selected = s.substr(j, i);
+            if (sub == selected)
+                ++count;
+            else
+            {
+                if (count > 1)
+                {
+                    temp += to_string(count);
+                    count = 1;
+                }
+                temp += sub;
+                sub = selected;
+            }
+        }
+        if (size % i != 0)
+            temp += sub;
+        answer = answer > temp.size() ? temp.size() : answer;
+    }
+    return answer;
 }
-/*
-예를 들어, 문자열 S = baabaa 라면
-b aa baa → bb aa → aa →
-의 순서로 문자열을 모두 제거할 수 있으므로 1을 반환합니다.
-*/
 
 int main()
 {
-    cout << solution("baabaa") << endl;
-    return 0;
+    cout << solution("aabbaccc") << endl;
 }
