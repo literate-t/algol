@@ -8,8 +8,6 @@ vector<int> solution(string s)
 {    
     vector<int> answer;
     size_t size = s.size();
-    //s[0] = ' ';
-    //s[size - 1] = ' ';
     vector<vector<int>> numbers;
     vector<int> nums;
     string str;
@@ -35,17 +33,23 @@ vector<int> solution(string s)
         return numbers[0];
     sort(begin(numbers), end(numbers), [](vector<int>& a, vector<int>& b) {
         return a.size() < b.size();
-        });    
-    for (int i = 0; i < numbers.size(); ++i)
+        });
+    vector<bool> flag(1000000);
+    printf("%zu\n", sizeof(flag) * sizeof(bool));
+    for (size_t i = 0; i < numbers.size(); ++i)
     {
-        auto ss = numbers[i];
-        for (int j = 0; j < ss.size(); ++j)
+        for (size_t j = 0; j < numbers[i].size(); ++j)
         {
-            auto n = ss[j];
-            if (answer.empty())
+            auto n = numbers[i][j];
+            if (flag[n] == false)
+            {
                 answer.push_back(n);
-            else if (answer.end() == find(answer.begin(), answer.end(), n))
-                    answer.push_back(n);
+                flag[n] = true;
+            }
+            //if (answer.empty())
+            //    answer.push_back(n);
+            //else if (answer.end() == find(answer.begin(), answer.end(), n))
+            //        answer.push_back(n);
         }
     }
     return answer;
