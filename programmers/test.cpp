@@ -1,66 +1,47 @@
 #include <string>
 #include <vector>
-
+#include <iostream>
 using namespace std;
 
-int get_min(int a, int b)
+int get_up_down(char c)
 {
-    return a < b ? a : b;
+    return c - 'A' < 'Z' - c + 1 ? c - 'A' : 'Z' - c + 1;
 }
-int matrix[101][101] = { 0 };
-int min_val;
-void rotate(int x1, int y1, int x2, int y2)
+
+int solution(string name) 
 {
-    min_val = 10000;
-    int first = matrix[x1][y1];
-
-    for (int i = x1; i < x2; ++i)
+    int answer = 0;
+    int min_val = name.find_last_not_of('A');
+    int size = name.size();
+    for (int i = 0; i < size; ++i)
     {
-        min_val = get_min(min_val, matrix[i][y1]);
-        matrix[i][y1] = matrix[i + 1][y1];
+        auto c = name[i];
+        if ('A' == c) continue;
+        else
+        {
+            answer += get_up_down(c);
+            int next_idx = i;
+            while ('A' == name[++next_idx]){}
+            int m = i + size - next_idx + min(i, size - next_idx);
+            min_val = min(min_val, m);
+        }
     }
-
-    for (int i = y1; i < y2; ++i)
-    {
-        min_val = get_min(min_val, matrix[x2][i]);
-        matrix[x2][i] = matrix[x2][i + 1];
-    }
-
-    for (int i = x2; i > x1; --i)
-    {
-        min_val = get_min(min_val, matrix[i][y2]);
-        matrix[i][y2] = matrix[i - 1][y2];
-    }
-
-    for (int i = y2; i > y1; --i)
-    {
-        min_val = get_min(min_val, matrix[x1][i]);
-        matrix[x1][i] = matrix[x1][i - 1];
-    }
-    matrix[x1][y1 + 1] = first;
+    return answer + min_val;
 }
-vector<int> solution(int rows, int columns, vector<vector<int>> queries) 
-{
-    vector<int> answer;    
-    for (int i = 1; i <= rows; ++i)
-        for (int j = 1; j <= columns; ++j)
-            matrix[i][j] = (i - 1) * columns + j;
-
-    for (int i = 0; i < queries.size(); ++i)
-    {
-        auto x1 = queries[i][0];
-        auto y1 = queries[i][1];
-        auto x2 = queries[i][2];
-        auto y2 = queries[i][3];
-        rotate(x1, y1, x2, y2);
-        answer.push_back(min_val);
-    }
-    return answer;
-}
+/*
+* AABAAAAB
+* 세 가지 루트가 있다
+* 1. 끝에서 A가 아닌 인덱스
+* 2. 2a + b
+* 3. 2b + a
+* min(2a + b, 2b + a)
+* -> a + b + min(a, b)
+* 
+*/
 
 int main()
 {
-    auto res = solution(6, 6, { {2,2,5,4}, {3,3,6,6}, {5,1,6,3} });
-    for (int num : res)
-        printf("%d\n", num);
+    cout << solution("JEROEN") << endl; //56
+    cout << solution("JAN") << endl; //23
+    cout << solution("AABAAAAB") << endl; //6
 }

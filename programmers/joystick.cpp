@@ -3,50 +3,45 @@
 #include <iostream>
 using namespace std;
 
-int GetMinUpDown(char c)
+int get_up_down(char c)
 {
     return c - 'A' < 'Z' - c + 1 ? c - 'A' : 'Z' - c + 1;
 }
-int solution(string name) 
+
+int solution(string name)
 {
     int answer = 0;
+    int min_val = name.find_last_not_of('A');
     int size = name.size();
     for (int i = 0; i < size; ++i)
-        answer += GetMinUpDown(name[i]);
-
-    int max_index = size - 1;
-    int min_val = size - 1;
-    int next_index = 0;
-    for (int i = 0; i < size; ++i)
     {
-        if (name[i] != 'A')
+        auto c = name[i];
+        if ('A' == c) continue;
+        else
         {
-            next_index = i + 1;
-            while (next_index < max_index && name[next_index] == 'A')
-                ++next_index;
-            min_val = min(min_val, i + size - next_index + min(i, size - next_index));                            
-            i = next_index;
+            answer += get_up_down(c);
+            int next_idx = i;
+            while ('A' == name[++next_idx]) {}
+            int m = i + size - next_idx + min(i, size - next_idx);
+            min_val = min(min_val, m);
         }
     }
     return answer + min_val;
 }
-
 /*
-*   01234
-*   ABAABAAAABAB
-     a 	b
-    int answer = str.size() - 1 : 4
-
-    min(2a + b, 2b + a)
-    -> a + b + min(a, b)
-
-    A -> Z: 25, 1
-    A - 'some'
-    Z - 'some' + 1
+* AABAAAAB
+* 세 가지 루트가 있다
+* 1. 끝에서 A가 아닌 인덱스
+* 2. 2a + b
+* 3. 2b + a
+* min(2a + b, 2b + a)
+* -> a + b + min(a, b)
+*
 */
 
 int main()
 {
-    cout << solution("JEROEN") << endl;
-    cout << solution("JAN") << endl;
+    cout << solution("JEROEN") << endl; //56
+    cout << solution("JAN") << endl; //23
+    cout << solution("AABAAAAB") << endl; //6
 }
