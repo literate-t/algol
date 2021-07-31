@@ -1,47 +1,37 @@
 #include <string>
+#include <queue>
 #include <vector>
-#include <iostream>
 using namespace std;
 
-int get_up_down(char c)
+int solution(int bridge_length, int weight, vector<int> truck_weights) 
 {
-    return c - 'A' < 'Z' - c + 1 ? c - 'A' : 'Z' - c + 1;
-}
-
-int solution(string name) 
-{
-    int answer = 0;
-    int min_val = name.find_last_not_of('A');
-    int size = name.size();
-    for (int i = 0; i < size; ++i)
+    int answer = 0, sum = 0, index = 0;
+    queue<pair<int, int>> bridge;
+    while (true)
     {
-        auto c = name[i];
-        if ('A' == c) continue;
-        else
+        ++answer;
+        if (!bridge.empty() && answer - bridge.front().second == bridge_length)
         {
-            answer += get_up_down(c);
-            int next_idx = i;
-            while ('A' == name[++next_idx]){}
-            int m = i + size - next_idx + min(i, size - next_idx);
-            min_val = min(min_val, m);
+            sum -= bridge.front().first;
+            bridge.pop();
         }
+
+        if (index <= truck_weights.size() - 1 && sum + truck_weights[index] <= weight && bridge.size() < bridge_length)
+        {
+            auto truck = truck_weights[index++];
+            sum += truck;
+            bridge.push({ truck, answer });
+        }
+
+        if (bridge.empty())
+            break;
     }
-    return answer + min_val;
+    return answer;
 }
-/*
-* AABAAAAB
-* 세 가지 루트가 있다
-* 1. 끝에서 A가 아닌 인덱스
-* 2. 2a + b
-* 3. 2b + a
-* min(2a + b, 2b + a)
-* -> a + b + min(a, b)
-* 
-*/
 
 int main()
 {
-    cout << solution("JEROEN") << endl; //56
-    cout << solution("JAN") << endl; //23
-    cout << solution("AABAAAAB") << endl; //6
+    printf("%d\n", solution(2, 10, { 7,4,5,6 }));
+    printf("%d\n", solution(100, 100, { 10 }));
+    printf("%d\n", solution(100, 100, { 10,10,10,10,10,10,10,10,10,10 }));
 }
