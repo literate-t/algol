@@ -1,37 +1,43 @@
 #include <string>
-#include <queue>
 #include <vector>
+#include <iostream>
 using namespace std;
 
-int solution(int bridge_length, int weight, vector<int> truck_weights) 
+int solution(string s) 
 {
-    int answer = 0, sum = 0, index = 0;
-    queue<pair<int, int>> bridge;
-    while (true)
+    size_t size = s.size();
+    int answer = size;
+
+    for (size_t i = 1; i <= size / 2; ++i)
     {
-        ++answer;
-        if (!bridge.empty() && answer - bridge.front().second == bridge_length)
+        string sub = s.substr(0, i);
+        int count = 1;
+        string temp;
+        for (size_t j = i; j <= size; j += i)
         {
-            sum -= bridge.front().first;
-            bridge.pop();
+            string str = s.substr(j, i);
+            if (sub == str)
+                ++count; // 3
+            else
+            {
+                if (count >= 2)
+                    temp += to_string(count);
+                temp += sub;
+                count = 1;
+                sub = (str == "" ? sub : str);
+            }
         }
-
-        if (index <= truck_weights.size() - 1 && sum + truck_weights[index] <= weight && bridge.size() < bridge_length)
-        {
-            auto truck = truck_weights[index++];
-            sum += truck;
-            bridge.push({ truck, answer });
-        }
-
-        if (bridge.empty())
-            break;
+        if (size % i != 0)
+            temp += sub;
+        answer = (answer > temp.size() ? temp.size() : answer);
     }
     return answer;
 }
 
+
 int main()
 {
-    printf("%d\n", solution(2, 10, { 7,4,5,6 }));
-    printf("%d\n", solution(100, 100, { 10 }));
-    printf("%d\n", solution(100, 100, { 10,10,10,10,10,10,10,10,10,10 }));
+    cout << solution("aabbaccc") << endl;
+    cout << solution("ababcdcdababcdcd") << endl;
+    cout << solution("abcabcabcabcdededededede") << endl;
 }

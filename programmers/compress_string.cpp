@@ -3,91 +3,41 @@
 #include <iostream>
 using namespace std;
 
-int min(int a, int b)
+int solution(string s)
 {
-    return a < b ? a : b;
-}
-int solution(string s) {
-    int answer = s.size();
-    for (int i = 1; i <= s.size() / 2; ++i)
+    size_t size = s.size();
+    int answer = size;
+
+    for (size_t i = 1; i <= size / 2; ++i)
     {
         string sub = s.substr(0, i);
-        string str = "";
         int count = 1;
-        for (int j = i; j <= s.size(); j += i)
+        string temp;
+        for (size_t j = i; j <= size; j += i)
         {
-            if (sub == s.substr(j, i))
-                ++count;
+            string str = s.substr(j, i);
+            if (sub == str)
+                ++count; // 3
             else
             {
-                if (count > 1)
-                {
-                    str += to_string(count);
-                    count = 1;
-                }
-                str += sub;
-                sub = s.substr(j, i);
+                if (count >= 2)
+                    temp += to_string(count);
+                temp += sub;
+                count = 1;
+                sub = (str == "" ? sub : str);
             }
         }
-        if (s.size() % i != 0)
-            str += sub;
-        answer = min(answer, str.size());
+        if (size % i != 0)
+            temp += sub;
+        answer = (answer > temp.size() ? temp.size() : answer);
     }
     return answer;
 }
 
+
 int main()
 {
-    cout << solution("xababcdcdababcdcd") << endl;
+    cout << solution("aabbaccc") << endl;
+    cout << solution("ababcdcdababcdcd") << endl;
+    cout << solution("abcabcabcabcdededededede") << endl;
 }
-
-//int get_min(int a, int b)
-//{
-//    return a < b ? a : b;
-//}
-//int solution(string s)
-//{
-//    int size = s.size();
-//    int answer = size;
-//    for (int i = 1; i <= size/2; ++i)
-//    {
-//        string sub = s.substr(0, i);
-//        string result = "";
-//        int count = 1;
-//
-//        for (int j = i; j <= size; j+=i)
-//        {            
-//            if (sub == s.substr(j, i))
-//            {
-//                ++count;
-//                continue;
-//            }
-//            else
-//            {
-//                if (count > 1)
-//                {
-//                    result += to_string(count) + sub;
-//                }
-//                else
-//                {
-//                    result += sub;
-//                }
-//                sub = s.substr(j, i);
-//                count = 1;
-//            }            
-//        }   
-//        if (size % i != 0)
-//            result += sub;
-//
-//        answer = get_min(answer, result.size());
-//    }
-//    return answer;
-//}
-
-
-/*
-* aabbaccc -> 2a2ba3c
-* 
-* ababcdcdababcdcd -> 2ababcdcd
-* 
-*/
