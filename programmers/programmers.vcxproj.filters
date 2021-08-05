@@ -108,5 +108,11 @@
     <ClCompile Include="tuple.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="correct_bracket.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="draw.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
