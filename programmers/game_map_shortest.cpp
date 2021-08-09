@@ -93,6 +93,7 @@ int solution(vector<vector<int> > maps)
             if (false == visited[hh][ww] && maps[hh][ww])
             {
                 answer[hh][ww] = answer[cur_y][cur_x] + 1;
+                visited[hh][ww] = true;
                 q.push({ ww, hh });
             }
         }
