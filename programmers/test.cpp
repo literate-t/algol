@@ -1,64 +1,56 @@
-#include <string>
+#include <cstdio>
 #include <vector>
-#include <queue>
-#include <iostream>
+#include <unordered_set>
+#include <cmath>
 using namespace std;
-
-bool visited[200][200];
-vector<vector<int>> com;
-
-void bfs(int i, int j)
+int solution(int N, int number) 
 {
-    queue<int> q;
-    q.push({ j });
-    while (!q.empty())
-    {
-        auto j = q.front();
-        q.pop();
-        for (int k = j + 1; k < com[i].size(); ++k)
-        {
-            if (visited[i][k] == false && com[i][k])
-            {
-                q.push(k);
-                visited[i][k] = true;
-                visited[k][i] = true;
-            }
-        }
-    }
-}
-
-int solution(int n, vector<vector<int>> computers) 
-{
-    com = computers;
     int answer = 0;
-    for (int i = 0; i < computers.size(); ++i)
+    vector<unordered_set<int>> d(9);
+    for (int i = 1; i <= 8; ++i)
     {
-        for (int j = 0; j < computers[i].size(); ++j)
-        {
-            if (i == j)
-            {
-                visited[i][j] = true;
-                continue;
-            }
+        int sum = 0;
+        int count = i;
+        while (count)
+            sum += N * pow(10, --count);
+        d[i].insert(sum);
+    }
 
-            else if (visited[i][j] == false && com[i][j])
+    for (int i = 2; i <= 8; ++i)
+    {
+        for (int j = 1; j < i; ++j)
+        {            
+            for (const int p1 : d[j])
             {
-                visited[i][j] = true;
-                visited[j][i] = true;
-                bfs(i, j);
-                ++answer;
+                for (const int p2 : d[i - j])
+                {                    
+                    d[i].insert(p1 + p2);
+                    d[i].insert(p1 * p2);
+                    d[i].insert(p1 - p2);
+                    if (0 != p2)
+                        d[i].insert(p1 / p2);
+                }
             }
         }
     }
-    return answer;
+    for (int i = 1; i <= 8; ++i)
+    {
+        for (int num : d[i])
+            if (num == number)
+                return i;
+    }
+    return -1;
 }
 /*
-* n[0][1] = 1
-* n[1][0] = 1
-* 
+*	d[i] -> N을 i번 사용해서 만들 수 있는 사칙연산의 결과값 경우의 수
+*	d[1] = 5
+*	d[2] = 55, d[1] +-/* d[1] -> 10, 0, 25, 1
+*	d[3] = 555, d[1] +-/* d[2], d[2] + d[1] -> 5, 6, 15, 30, 50, 125..
+*	d[4] = 5555, (d[1] +-/* d[3]) + (d[2] + d[2]) + (d[3] + d[1])
+*	d[i] = N*i, (d[1] +-/* d[N-1]) + (d[2] +-/* d[N-1) + ... + (d[N-1] + d[1]) -> 중복을 없앤다 vecter<set>
 */
 int main()
 {
-    cout << solution(3, { {1,1,0}, {1, 1, 0}, {0, 0, 1} }) << endl; // 2
-    cout << solution(3, { {1,1,0}, {1, 1, 1}, {0, 1, 1} }) << endl; // 1
+    auto answer = solution(5, 12);
+    printf("%d", answer);
 }
