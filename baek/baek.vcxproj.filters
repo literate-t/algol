@@ -75,5 +75,11 @@
     <ClCompile Include="cut_tree.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="dijkstra.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="shortest_path.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
