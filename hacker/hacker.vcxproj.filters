@@ -21,5 +21,14 @@
     <ClCompile Include="climbing_the_leaderboard.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="extra_long_factorials.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="flatland_space_stations.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="organizing_containers_of_balls.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
