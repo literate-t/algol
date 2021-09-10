@@ -30,5 +30,20 @@
     <ClCompile Include="organizing_containers_of_balls.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="encryption.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="the_time_in_words.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="the_grid_search.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="bomberman_game.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ema_supercomptuer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
