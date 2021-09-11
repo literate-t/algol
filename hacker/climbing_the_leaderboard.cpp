@@ -1,47 +1,55 @@
-#include <cstdio>
+#include <iostream>
 #include <vector>
-#include <queue>
-#include <algorithm>
+#include <string>
 using namespace std;
-int main()
-{
-	int N, M;
-	scanf("%d", &N);
-	vector<int> ranked(N, 0);
-	for (size_t i = 0; i < N; ++i)
-		scanf("%d", &ranked[i]);
-	scanf("%d", &M);
-	vector<int> player(M, 0);
-	for (size_t i = 0; i < M; ++i)
-		scanf("%d", &player[i]);
 
+vector<int> climbingLeaderboard(vector<int> ranked, vector<int> player)
+{
 	int my_rank = 1;
 	for (size_t i = 0; i < ranked.size() - 1; ++i)
+	{
 		if (ranked[i] > ranked[i + 1])
 			++my_rank;
+	}
+	++my_rank;
+	int r_idx = ranked.size() - 1;
+	int p_idx = 0;
 	vector<int> answer;
-	answer.reserve(M);
-	my_rank += 1;
-	size_t r_index = ranked.size() - 1;
-	for (size_t i = 0; i < M; ++i)
+	int size = player.size();
+	answer.reserve(size);
+	while (p_idx + 1 <= size)
 	{
-		auto my_score = player[i];
-		while (my_score >= ranked[r_index])
+		auto me = player[p_idx];
+		auto rank = ranked[r_idx];
+		if (me >= rank)
 		{
-			if (0 == r_index)
+			if (r_idx == 0)
 			{
-				my_rank = 1;
-				break;
+				answer.push_back(1);
+				++p_idx;
 			}
-			if (ranked[r_index] != ranked[r_index - 1])
+			else if (ranked[r_idx - 1] != ranked[r_idx])
 			{
 				--my_rank;
-				--r_index;
+				--r_idx;
 			}
 			else
-				--r_index;
-
+				--r_idx;
 		}
-		answer.push_back(my_rank);
+		else
+		{
+			answer.push_back(my_rank);
+			++p_idx;
+		}
 	}
+	return answer;
+}
+
+int main()
+{
+	vector<int> ranked{ 100,90,90,80,75,60 };
+	vector<int> player{ 50,65,77,90,102 };
+	auto result = climbingLeaderboard(ranked, player);
+	for (int r : result) // 6 5 4 2 1
+		printf("%d\n", r);
 }
