@@ -1,6 +1,5 @@
 #include <string>
 #include <vector>
-#include <cstdio>
 using namespace std;
 
 int wrap(int a)
@@ -15,12 +14,8 @@ int solution(vector<vector<int>> triangle)
     vector<vector<int>> d(size, vector<int>(size, 0));
 
     for (int i = 0; i < triangle.size(); ++i)
-    {
         for (int j = 0; j < triangle[i].size(); ++j)
-        {
             d[i][j] = max(d[wrap(i - 1)][wrap(j - 1)], d[wrap(i - 1)][j]) + triangle[i][j];
-        }
-    }    
     for (int i = 0; i < d[size - 1].size(); ++i)
         answer = max(answer, d[size - 1][i]);
     return answer;
